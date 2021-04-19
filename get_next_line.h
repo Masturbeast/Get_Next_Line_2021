@@ -19,7 +19,6 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
-# include "libft/libft.h"
 
 typedef struct	s_tab
 {
@@ -29,5 +28,6 @@ typedef struct	s_tab
 }				t_tab;
 
 int				get_next_line(const int fd, char **line);
+void			ft_bzero(void *s, size_t n);
 
 #endif
