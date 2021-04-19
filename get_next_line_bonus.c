@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnaji <mnaji@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/11 12:26:28 by mnaji             #+#    #+#             */
-/*   Updated: 2019/11/12 15:13:25 by mnaji            ###   ########.fr       */
+/*   Created: 2019/11/11 12:27:13 by mnaji             #+#    #+#             */
+/*   Updated: 2019/11/11 16:21:59 by mnaji            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static int	is_eol(char *s, int len)
 {
@@ -92,17 +92,22 @@ static int	read_line(char **line, t_stock *stock, int i_line, int i_read)
 
 int			get_next_line(int fd, char **line)
 {
-	static t_stock	stock;
+	static t_stock	stock[OPEN_MAX];
 	int				ret;
+	int				i;
 
 	if ((fd < 0 || fd > OPEN_MAX) || !line || BUFFER_SIZE < 1 || \
 			read(fd, NULL, 0) == -1)
 		return (-1);
-	if ((ret = pop_line(&stock, line)) != 0)
-		return (ret);
-	stock.fd = fd;
-	stock.old_len = stock.len;
-	if ((ret = read_line(line, &stock, 0, 0)) == -1)
+	if ((i = multi_fd(stock, fd)) == -1)
 		return (-1);
+	if ((ret = pop_line(stock + i, line)) != 0)
+		return (ret);
+	stock[i].old_len = stock[i].len;
+	if ((ret = read_line(line, stock + i, 0, 0)) < 1)
+	{
+		stock[i].fd = 0;
+		stock[i].s[0] = '\0';
+	}
 	return (ret);
 }
