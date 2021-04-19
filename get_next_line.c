@@ -50,7 +50,7 @@ int		ft_get_line(char *buff, char **str, char **line)
 		free(tmp);
 	if ((tmp = ft_strchr(*str, '\n')) != NULL)
 	{
-		if ((*line = ft_strsub(*str, 0, tmp - (*str))) == NULL)
+		if ((*line = ft_substr(*str, 0, tmp - (*str))) == NULL)
 			return (-1);
 		buff = *str;
 		if (tmp[1] && (*str = ft_strdup(tmp + 1)) == NULL)

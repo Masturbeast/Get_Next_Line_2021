@@ -35,6 +35,9 @@ char			*ft_strcpy(char *dest, const char *src);
 char			*ft_strcat(char *dest, const char *src);
 char			*ft_strdup(const char *src);
 char			*ft_strchr(const char *str, int c);
+size_t		ft_strlen(const char *str);
+void	*ft_memset(void *s, int c, size_t n);
+
 
 
 #endif
